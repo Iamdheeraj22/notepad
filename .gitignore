@@ -1,3 +1,11 @@
 *.pyc
 *.json
 *.DS_Store
+__pycache__/
+
+# PyInstaller Output
+build/
+dist/
+*.spec
+*.dmg
+Output/

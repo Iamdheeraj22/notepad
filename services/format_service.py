@@ -6,19 +6,20 @@ import os
 from tkinter import colorchooser
 
 class FormatService:
-    def __init__(self, editor):
+    def __init__(self, editor, config=None):
         self.editor = editor
+        self.config = config
         self.font_cache = {}
         
         # Default font state
-        self.current_family = "Arial"
-        self.current_size = 12
+        self.current_family = self.config.default_font_family if self.config else "Arial"
+        self.current_size = self.config.default_font_size if self.config else 12
         self.current_weight = "normal"
         self.current_slant = "roman"
         self.current_wrap = False
         self.current_auto_save = False
-        self.current_zoom = 100
-        self.settings_file = "format_settings.json"
+        self.current_zoom = self.config.default_zoom_percentage if self.config else 100
+        self.settings_file = os.path.expanduser("~/.notepad_format_settings.json")
         
         self.load_settings()
         

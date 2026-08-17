@@ -9,9 +9,10 @@ class StatusBar(ttk.Frame):
     of how the metrics are calculated and relies entirely on external 
     updates through `update_statistics`.
     """
-    def __init__(self, parent: tk.Widget, on_zoom_selected=None, *args, **kwargs):
+    def __init__(self, parent: tk.Widget, on_zoom_selected=None, config=None, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.on_zoom_selected = on_zoom_selected
+        self.app_config = config
         
         # Configure the layout and appearance of the Status Bar
         self.config(relief=tk.SUNKEN, padding=(2, 2))

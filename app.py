@@ -1,3 +1,5 @@
+import os
+import sys
 from tkinter import *
 from utils.constants import Constants as cs
 from ui.editor import Editor as editor
@@ -9,10 +11,18 @@ from ui.format_toolbar import FormatToolbar
 from models.document_state import DocumentState
 
 class App:
-    def __init__(self):
+    def __init__(self, config=None, resource_manager=None):
+        from models.app_config import AppConfig
+        self.config = config or AppConfig()
+        
+        # In a real scenario, this would have a fallback if none provided, 
+        # but since we inject from main, we expect it.
+        from services.resource_manager import ResourceManager
+        self.resource_manager = resource_manager or ResourceManager()
+        
         self.window = Tk()
         self.document_state = DocumentState()
-        self.fileService = FileService(self.window)
+        self.fileService = FileService(self.window, config=self.config)
         self.configureWindow()
         self.initializeUi()
         self.setup_auto_save()
@@ -23,9 +33,10 @@ class App:
         #Height / Width
         self.window.minsize(width=800,height=500)
         self.window.geometry("800x500")
-        icon=PhotoImage(file="icon/icon2.png")
-        self.window.iconphoto(False,icon)
-        #self.window.iconbitmap(bitmap="icon/icon.ico")
+        
+        icon = self.resource_manager.get_image("icon/icon2.png")
+        if icon:
+            self.window.iconphoto(False, icon)
 
     def initializeUi(self):
         from tkinter import ttk
@@ -42,10 +53,10 @@ class App:
         self.window.bind("<<SearchReplaceStatus>>", self.update_top_status)
         
         # Editor
-        self.editor = editor(self.window, fileService=self.fileService, document_state=self.document_state)
+        self.editor = editor(self.window, fileService=self.fileService, document_state=self.document_state, config=self.config)
         self.fileService.editor = self.editor
         
-        self.formatService = FormatService(self.editor)
+        self.formatService = FormatService(self.editor, config=self.config)
         
         # Zoom Service integration
         from services.zoom_service import ZoomService
@@ -64,7 +75,7 @@ class App:
         from ui.status_bar import StatusBar
         
         self.stats_service = DocumentStatisticsService(self.editor.editor_widget, zoom_service=self.zoom_service, document_state=self.document_state)
-        self.status_bar = StatusBar(self.window, on_zoom_selected=self.zoom_service.set_zoom)
+        self.status_bar = StatusBar(self.window, on_zoom_selected=self.zoom_service.set_zoom, config=self.config)
         self.status_bar.pack(side=BOTTOM, fill=X)
         
         self.window.bind("<<UpdateStatus>>", self.update_status_bar)
@@ -99,7 +110,7 @@ class App:
 
     def update_title(self):
         fileName = self.fileService.getFileName()
-        title = fileName if fileName else f"{cs.appName}"
+        title = fileName if fileName else self.config.app_name
         if getattr(self, 'document_state', None) and self.document_state.is_modified:
             self.window.title(f"*{title}")
         else:

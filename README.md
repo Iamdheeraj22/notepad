@@ -1,62 +1,68 @@
-# Notepad
+# Python Tkinter Notepad
 
-A lightweight Python desktop notepad application with modular services and a simple GUI.
+A lightweight, fully-featured Python desktop notepad application with modular services, built on `Tkinter`. 
 
-## Description
+## 🌟 Features
+- **Text Editing:** Standard text entry with undo/redo capabilities.
+- **File Management:** Open, Save, Save As, and Print files.
+- **Advanced Formatting:** Customize font family, size, bold, italic, underline, strikethrough, text color, and highlight colors.
+- **Search & Replace:** Find text and perform case-insensitive replacements.
+- **Zooming:** Dynamic zoom in/out with UI scaling (50% to 400%).
+- **Document Statistics:** Real-time tracking of character count, word count, line count, and cursor position (Line/Col).
+- **Auto-Save:** Configurable background auto-save.
+- **Configurable:** Centralized `AppConfig` and persistent formatting settings saving your preferences automatically.
 
-This project implements a small text editor designed for learning and extension. It separates concerns into UI components, services, and data models so features can be added or replaced easily.
+## 💻 Supported Platforms
+- **macOS** 10.15+ (Catalina and newer)
+- **Windows** 10 and 11
+- **Linux** (Source code execution only)
 
-## Features
+## ⌨️ Keyboard Shortcuts
+| Action | Windows / Linux | macOS |
+| --- | --- | --- |
+| **New File** | `Ctrl + N` | `Cmd + N` |
+| **Open File** | `Ctrl + O` | `Cmd + O` |
+| **Save** | `Ctrl + S` | `Cmd + S` |
+| **Save As** | `Ctrl + Shift + S` | `Cmd + Shift + S` |
+| **Find** | `Ctrl + F` | `Cmd + F` |
+| **Replace** | `Ctrl + H` | `Cmd + Option + F` |
+| **Zoom In** | `Ctrl + +` | `Cmd + +` |
+| **Zoom Out** | `Ctrl + -` | `Cmd + -` |
+| **Reset Zoom**| `Ctrl + 0` | `Cmd + 0` |
 
-- **Text Editing:** Core editor UI for creating and editing plain text documents.
-- **File Management:** Open, save, and save-as functionality implemented via services/file_service.py.
-- **Formatting Support:** Formatting toolbar and services/format_service.py to apply configurable formatting settings (see `format_settings.json`).
-- **Keyboard Shortcuts:** Centralized shortcuts handling in services/shortcuts_service.py.
-- **Document Statistics:** Tracks statistics (word/line counts) via models/document_statistics.py and services/statistics_service.py.
-- **Save Dialog:** Save dialog view implemented in ui/dialogs/save_dialog_view.py with a base dialog in ui/dialogs/base_dialog.py.
-- **Zoom Controls:** Zoom in/out support via services/zoom_service.py.
-- **System Integration:** System-level helpers in services/system_service.py.
-- **Status Bar & Menu:** UI elements for status and menu located in ui/status_bar.py and ui/menu.py.
-- **Modular Architecture:** Clear separation between `ui/`, `services/`, and `models/` for maintainability.
+## 🚀 Installation & Usage
 
-## Installation
+### 🍎 macOS
+1. Download `Notepad-v1.0.0-macOS.dmg` from the **Releases** page.
+2. Open the `.dmg` file and drag **Notepad.app** to your Applications folder.
+3. Launch from Applications. 
+*(Note: If blocked by Gatekeeper, right-click and select "Open")*.
 
+### 🪟 Windows
+1. Download `Notepad-v1.0.0-Windows-Setup.exe` from the **Releases** page.
+2. Run the installer and follow the prompt.
+3. Launch via the Desktop or Start Menu shortcut.
+
+### 🐍 From Source
 1. Install Python 3.10+.
-2. (Optional) Create and activate a virtual environment:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
-
-3. Install dependencies if any (none are required by default).
-
-## Running
-
-Run the application using:
-
+2. Clone the repository and run:
 ```bash
 python main.py
 ```
 
-or
+## ⚠️ Known Limitations
+- The application does not currently support multi-tab editing (one document per window).
+- Large files (> 10MB) may experience slight syntax/line-counting lag due to Tkinter limitations.
+- Rich Text formats (`.rtf`, `.docx`) are not supported; the app works purely with plain-text (`.txt`).
 
-```bash
-python app.py
-```
+## 🏗 Build & Release
+This project uses PyInstaller and GitHub Actions for packaging. 
 
-## Project Structure (high level)
+**macOS:**
+Run `pyinstaller notepad_macos.spec`, followed by `./build_macos_dmg.sh` to compile the app bundle and DMG.
 
-- `main.py`, `app.py` — application entry points
-- `ui/` — UI components: `editor.py`, `format_toolbar.py`, `menu.py`, `status_bar.py`, `dialogs/`
-- `services/` — application services: `file_service.py`, `format_service.py`, `shortcuts_service.py`, `statistics_service.py`, `system_service.py`, `zoom_service.py`
-- `models/` — data models: `document_state.py`, `document_statistics.py`
-- `format_settings.json` — formatting defaults
+**Windows:**
+Run `pyinstaller notepad_windows.spec`, then compile `notepad_windows_installer.iss` using Inno Setup.
 
-## Contributing
-
-Contributions welcome. Open an issue or create a pull request describing the change.
-
-## License
-
-Specify your preferred license here (e.g., MIT). 
+## 📄 License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

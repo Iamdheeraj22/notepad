@@ -8,13 +8,14 @@ from tkinter.messagebox import *
 import subprocess
 
 class FileService():
-    def __init__(self, *root: Tk, editor=None):
+    def __init__(self, *root: Tk, editor=None, config=None):
         self.currentFile = "untitled"
         self.currentFileName = ""
         self.currentFilePath = ""
         self.fileName = ""
         self.root = root[0] if root else None
         self.editor = editor
+        self.config = config
 
     def newFile(self):
         content_length = 0
@@ -174,7 +175,7 @@ class FileService():
         print("Print Preview")
         pass
 
-    def setFileDetails(self,isSavedFile:False,fullFilePath:str=""):
+    def setFileDetails(self,isSavedFile:bool=False,fullFilePath:str=""):
         if not isSavedFile:
             openFile = self.fileName
             self.currentFilePath = os.path.dirname(openFile)
@@ -185,7 +186,7 @@ class FileService():
             self.currentFile = os.path.basename(fullFilePath)
             self.currentFileName = os.path.splitext(self.currentFile)[0]
             if self.root:
-                        self.root.title(f"{self.getFileName()}")
+                self.root.title(f"{self.getFileName()}")
 
     def getFileName(self):
         return self.currentFile

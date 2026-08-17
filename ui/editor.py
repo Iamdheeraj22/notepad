@@ -4,10 +4,11 @@ from services.file_service import FileService
 
 class Editor():
 
-    def __init__(self, root:Tk, fileService:FileService, document_state=None):
+    def __init__(self, root:Tk, fileService:FileService, document_state=None, config=None):
         self.root = root
         self.fileService = fileService
         self.document_state = document_state
+        self.config = config
         self.editor_widget = None
 
     def show(self):

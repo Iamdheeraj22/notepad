@@ -3,9 +3,6 @@ class Constants():
     def __init__(self):
         pass
 
-    appName="Notepad"
-    version = "1.0"
-
     #Hold menu items
     holdMenuItem=[
         "Properties", "Auto Save", "Auto Recovery", 
