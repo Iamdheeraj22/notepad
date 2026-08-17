@@ -88,7 +88,10 @@ class Menubar():
         file_name = self.fService.getFileName()
         file_path = self.fService.getFilePath()
         
-        if not file_path or file_name == "untitled" or not file_name:
+        if not file_path:
+            file_path = os.getcwd()
+            
+        if file_name == "untitled" or not file_name:
             messagebox.showwarning("Warning", "File information not showing until file is saved in the system.")
             return
 

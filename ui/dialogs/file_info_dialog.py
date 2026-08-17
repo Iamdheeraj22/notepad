@@ -15,9 +15,14 @@ class FileInfoDialog(BaseDialog):
         row = 0
         for key, value in self.file_info.items():
             ttk.Label(body_frame, text=f"{key}:", font=("Helvetica", 10, "bold")).grid(row=row, column=0, sticky="e", padx=(0, 10), pady=5)
-            # Use a slightly wider label or an entry (readonly) for path if it's long, but a label is fine for now
-            val_label = ttk.Label(body_frame, text=str(value), font=("Helvetica", 10), wraplength=350)
-            val_label.grid(row=row, column=1, sticky="w", pady=5)
+            if key == "File Path":
+                val_entry = ttk.Entry(body_frame, width=45, font=("Helvetica", 10))
+                val_entry.insert(0, str(value))
+                val_entry.config(state="readonly")
+                val_entry.grid(row=row, column=1, sticky="w", pady=5)
+            else:
+                val_label = ttk.Label(body_frame, text=str(value), font=("Helvetica", 10), wraplength=350)
+                val_label.grid(row=row, column=1, sticky="w", pady=5)
             row += 1
 
     def create_buttons(self):
