@@ -23,6 +23,9 @@ class App:
         #Height / Width
         self.window.minsize(width=800,height=500)
         self.window.geometry("800x500")
+        icon=PhotoImage(file="icon/icon2.png")
+        self.window.iconphoto(False,icon)
+        #self.window.iconbitmap(bitmap="icon/icon.ico")
 
     def initializeUi(self):
         from tkinter import ttk
