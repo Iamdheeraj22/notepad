@@ -17,6 +17,12 @@ class FileService():
         self.editor = editor
         self.config = config
 
+    def _get_default_save_dir(self):
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+        notepad_dir = os.path.join(desktop_path, "Notepad")
+        os.makedirs(notepad_dir, exist_ok=True)
+        return notepad_dir
+
     def newFile(self):
         content_length = 0
         if self.editor:
@@ -94,12 +100,16 @@ class FileService():
 
             extension=cs.FILE_TYPES[file_type]
             file_content = self.editor.fetchFileContent() if self.editor else ""
-            with open(f"{self.currentFileName}{extension}",mode="x") as file:
+            
+            save_dir = self._get_default_save_dir()
+            full_path = os.path.join(save_dir, f"{self.currentFileName}{extension}")
+            
+            with open(full_path, mode="x") as file:
                 file.write(file_content)
 
             self.setFileDetails(
                True,
-                fullFilePath=f"{self.currentFileName}{extension}"
+                fullFilePath=full_path
             )            
         else:
             file_content = self.editor.fetchFileContent() if self.editor else ""
@@ -124,12 +134,15 @@ class FileService():
         extension = cs.FILE_TYPES[file_type]
         file_content = self.editor.fetchFileContent() if self.editor else ""
         
-        with open(f"{self.currentFileName}{extension}", mode="w") as file:
+        save_dir = self._get_default_save_dir()
+        full_path = os.path.join(save_dir, f"{self.currentFileName}{extension}")
+        
+        with open(full_path, mode="w") as file:
             file.write(file_content)
 
         self.setFileDetails(
             True,
-            fullFilePath=f"{self.currentFileName}{extension}"
+            fullFilePath=full_path
         )
         if self.editor:
             self.editor.set_unmodified()
